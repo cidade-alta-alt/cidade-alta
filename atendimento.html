@@ -1,0 +1,614 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0c0f">
+    <title>Atendimento | Cidade Alta RP</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .support-layout {
+            width: min(1000px, 92%);
+            margin: 45px auto 65px;
+        }
+
+        .support-header { margin-bottom: 25px; }
+
+        .support-header h2 {
+            margin-top: 10px;
+            font-size: clamp(25px, 5vw, 36px);
+            line-height: 1.25;
+        }
+
+        .support-header p {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 280px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .support-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--surface);
+        }
+
+        .support-card-header {
+            padding: 19px 21px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,.015);
+        }
+
+        .support-avatar {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            color: #15100a;
+            font-weight: 900;
+        }
+
+        .support-card-header h3 { font-size: 14px; }
+
+        .support-card-header p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .support-online {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .support-body {
+            min-height: 300px;
+            padding: 22px;
+        }
+
+        .welcome-message {
+            padding: 17px;
+            border: 1px solid rgba(243,189,98,.14);
+            border-radius: 11px;
+            background: rgba(243,189,98,.035);
+        }
+
+        .welcome-message strong {
+            color: var(--gold);
+            font-size: 13px;
+        }
+
+        .welcome-message p {
+            margin-top: 8px;
+            color: #c2c4cb;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .support-form {
+            padding: 20px 22px;
+            border-top: 1px solid var(--border);
+        }
+
+        .support-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e7e7ea;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .support-form select,
+        .support-form input,
+        .support-form textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #343741;
+            border-radius: 9px;
+            outline: none;
+            background: #101216;
+            color: var(--text);
+            font: inherit;
+            font-size: 13px;
+        }
+
+        .support-form select:focus,
+        .support-form input:focus,
+        .support-form textarea:focus {
+            border-color: var(--orange);
+        }
+
+        .support-form textarea {
+            min-height: 115px;
+            resize: vertical;
+        }
+
+        .form-group { margin-bottom: 18px; }
+
+        .support-submit {
+            width: 100%;
+            min-height: 47px;
+            padding: 12px 16px;
+            border: 0;
+            border-radius: 9px;
+            background: linear-gradient(100deg, var(--orange), var(--gold));
+            color: #17110a;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .support-submit:hover { filter: brightness(1.07); }
+
+        .support-submit:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .support-status {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .side-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: var(--surface);
+        }
+
+        .side-card + .side-card { margin-top: 15px; }
+
+        .side-card h3 { font-size: 14px; }
+
+        .side-card > p {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .side-list {
+            margin-top: 17px;
+            display: grid;
+            gap: 15px;
+        }
+
+        .side-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+        }
+
+        .side-item-icon {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 9px;
+            background: rgba(255,140,50,.09);
+            color: var(--gold);
+        }
+
+        .side-item strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        .side-item p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .privacy-note {
+            margin-top: 18px;
+            color: #9296a1;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 760px) {
+            .support-layout { margin-top: 30px; }
+            .support-grid { grid-template-columns: 1fr; }
+            .support-body { min-height: 220px; }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <a href="index.html" class="brand">
+            <div class="brand-icon">CA</div>
+            <div>
+                <h1>CIDADE ALTA <span>RP</span></h1>
+                <p>CENTRAL DE ATENDIMENTO</p>
+            </div>
+        </a>
+
+        <a href="index.html" class="login-button">
+            Início <span>↗</span>
+        </a>
+    </header>
+
+    <main class="support-layout">
+        <section class="support-header">
+            <span class="eyebrow">CENTRAL DE SUPORTE</span>
+            <h2>Vamos resolver isso juntos.</h2>
+            <p>
+                Preencha as informações abaixo para abrir
+                sua solicitação de atendimento.
+            </p>
+        </section>
+
+        <div class="support-grid">
+            <section class="support-card">
+                <div class="support-card-header">
+                    <div class="support-avatar">CA</div>
+                    <div>
+                        <h3>Assistente Cidade Alta</h3>
+                        <p>Assistente virtual da central</p>
+                    </div>
+                    <div class="support-online">
+                        <span class="status-dot"></span>
+                        <span id="connection-label">Conectando...</span>
+                    </div>
+                </div>
+
+                <div class="support-body">
+                    <div class="welcome-message">
+                        <strong>Bem-vindo à Central de Atendimento!</strong>
+                        <p>
+                            Escolha o assunto e descreva sua solicitação.
+                            Seu ticket será registrado para que possa
+                            ser acompanhado pela equipe.
+                        </p>
+                        <p>
+                            O atendimento por inteligência artificial
+                            será ativado em uma próxima etapa.
+                        </p>
+                    </div>
+                </div>
+
+                <form class="support-form" id="ticket-form">
+                    <div class="form-group">
+                        <label for="category">Categoria do atendimento</label>
+                        <select id="category" name="category" required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="suporte">Suporte</option>
+                            <option value="denuncia">Denúncias</option>
+                            <option value="parcerias">Parcerias</option>
+                            <option value="outros">Outros assuntos</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Assunto</label>
+                        <input
+                            id="subject"
+                            name="subject"
+                            type="text"
+                            maxlength="100"
+                            placeholder="Resuma o motivo do contato"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Descreva sua solicitação</label>
+                        <textarea
+                            id="description"
+                            name="description"
+                            maxlength="3000"
+                            placeholder="Conte o que aconteceu e forneça as informações necessárias..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <button class="support-submit" id="submit-button" type="submit" disabled>
+                        Carregando atendimento...
+                    </button>
+
+                    <p class="support-status" id="form-status" role="status" aria-live="polite">
+                        Verificando sua autenticação...
+                    </p>
+                </form>
+            </section>
+
+            <aside>
+                <section class="side-card">
+                    <h3>Como funciona?</h3>
+                    <p>
+                        Sua solicitação será registrada e poderá ser
+                        encaminhada à equipe responsável.
+                    </p>
+
+                    <div class="side-list">
+                        <div class="side-item">
+                            <div class="side-item-icon">01</div>
+                            <div>
+                                <strong>Informe o problema</strong>
+                                <p>Escolha a categoria e descreva o caso.</p>
+                            </div>
+                        </div>
+
+                        <div class="side-item">
+                            <div class="side-item-icon">02</div>
+                            <div>
+                                <strong>Registro do ticket</strong>
+                                <p>A solicitação será salva no banco de dados.</p>
+                            </div>
+                        </div>
+
+                        <div class="side-item">
+                            <div class="side-item-icon">03</div>
+                            <div>
+                                <strong>Equipe responsável</strong>
+                                <p>O atendimento por Staff será integrado na próxima etapa.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="side-card">
+                    <h3>Proteção das informações</h3>
+                    <p>
+                        Evite enviar senhas, códigos de autenticação
+                        ou informações pessoais desnecessárias.
+                    </p>
+                    <div class="privacy-note">
+                        O sistema utiliza sua sessão autenticada para
+                        vincular o ticket à sua conta.
+                    </div>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">CIDADE ALTA <span>RP</span></div>
+        <p>Central de Atendimento · 2026</p>
+        <span class="footer-status">
+            <span class="status-dot"></span>
+            SISTEMA EM DESENVOLVIMENTO
+        </span>
+    </footer>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+    <script>
+        "use strict";
+
+        const SUPABASE_URL = "https://exyacxoanpztjtklgiae.supabase.co";
+        const SUPABASE_KEY = "sb_publishable_ZI8tE0m5x2kGfK66PUzarg_8SGgQ0Ie";
+
+        const client = window.supabase.createClient(
+            SUPABASE_URL,
+            SUPABASE_KEY
+        );
+
+        const categorySelect = document.getElementById("category");
+        const form = document.getElementById("ticket-form");
+        const statusMessage = document.getElementById("form-status");
+        const submitButton = document.getElementById("submit-button");
+        const connectionLabel = document.getElementById("connection-label");
+
+        let currentUser = null;
+        let isSubmitting = false;
+
+        // O formulário usa "parcerias", mas o banco utiliza "parceria".
+        const categoryMap = {
+            suporte: "suporte",
+            denuncia: "denuncia",
+            parcerias: "parceria",
+            outros: "outros"
+        };
+
+        function showStatus(message, color) {
+            statusMessage.textContent = message;
+            statusMessage.style.color = color || "#9296a1";
+        }
+
+        function restoreCategory() {
+            const params = new URLSearchParams(window.location.search);
+            const requestedCategory = params.get("categoria");
+
+            const validCategories = [
+                "suporte",
+                "denuncia",
+                "parcerias",
+                "outros"
+            ];
+
+            if (validCategories.includes(requestedCategory)) {
+                categorySelect.value = requestedCategory;
+                return;
+            }
+
+            try {
+                const pending = sessionStorage.getItem(
+                    "cidadeAltaCategoriaPendente"
+                );
+
+                if (validCategories.includes(pending)) {
+                    categorySelect.value = pending;
+                }
+            } catch (error) {
+                console.warn("Não foi possível recuperar a categoria.");
+            }
+        }
+
+        async function initializePage() {
+            restoreCategory();
+
+            try {
+                const { data, error } = await client.auth.getSession();
+
+                if (error) throw error;
+
+                currentUser = data.session
+                    ? data.session.user
+                    : null;
+
+                if (!currentUser) {
+                    connectionLabel.textContent = "Login necessário";
+                    showStatus(
+                        "Sua sessão não foi encontrada. Você será encaminhado para entrar com o Google.",
+                        "#f3bd62"
+                    );
+
+                    const category = categorySelect.value;
+                    const destination = category
+                        ? "login.html?categoria=" + encodeURIComponent(category)
+                        : "login.html";
+
+                    window.location.replace(destination);
+                    return;
+                }
+
+                connectionLabel.textContent = "Conectado";
+                submitButton.disabled = false;
+                submitButton.textContent = "Abrir atendimento";
+
+                showStatus(
+                    "Conectado com sucesso. Você já pode enviar sua solicitação.",
+                    "#86d9a1"
+                );
+            } catch (error) {
+                console.error("Erro ao verificar sessão:", error);
+                connectionLabel.textContent = "Erro de conexão";
+                submitButton.disabled = true;
+
+                showStatus(
+                    "Não foi possível verificar sua sessão. Atualize a página e tente novamente.",
+                    "#ff8585"
+                );
+            }
+        }
+
+        form.addEventListener("submit", async function (event) {
+            event.preventDefault();
+
+            if (isSubmitting) return;
+
+            if (!currentUser) {
+                showStatus(
+                    "Sua sessão não está ativa. Entre novamente com o Google.",
+                    "#ff8585"
+                );
+                return;
+            }
+
+            const formData = new FormData(form);
+            const selectedCategory = formData.get("category");
+            const subject = String(formData.get("subject") || "").trim();
+            const description = String(formData.get("description") || "").trim();
+
+            if (!categoryMap[selectedCategory]) {
+                showStatus("Selecione uma categoria válida.", "#ff8585");
+                return;
+            }
+
+            if (!subject || !description) {
+                showStatus("Preencha o assunto e a descrição.", "#ff8585");
+                return;
+            }
+
+            isSubmitting = true;
+            submitButton.disabled = true;
+            submitButton.textContent = "Enviando solicitação...";
+            showStatus("Registrando seu ticket no banco de dados...", "#f3bd62");
+
+            try {
+                // Confere novamente a sessão antes de enviar.
+                const { data: sessionData, error: sessionError } =
+                    await client.auth.getSession();
+
+                if (sessionError) throw sessionError;
+
+                const user = sessionData.session?.user;
+
+                if (!user) {
+                    throw new Error("Sua sessão expirou. Entre novamente.");
+                }
+
+                // O banco verifica se owner_id corresponde ao usuário autenticado.
+                const { error } = await client
+                    .from("tickets")
+                    .insert({
+                        owner_id: user.id,
+                        category: categoryMap[selectedCategory],
+                        subject: subject,
+                        description: description
+                    });
+
+                if (error) throw error;
+
+                form.reset();
+
+                showStatus(
+                    "Ticket criado com sucesso! Sua solicitação foi salva no banco de dados.",
+                    "#86d9a1"
+                );
+
+                // Limpa a categoria pendente após o envio bem-sucedido.
+                try {
+                    sessionStorage.removeItem("cidadeAltaCategoriaPendente");
+                } catch (error) {
+                    console.warn("Não foi possível limpar a categoria pendente.");
+                }
+            } catch (error) {
+                console.error("Erro ao criar ticket:", error);
+
+                const errorMessage = error?.message || "";
+
+                if (
+                    errorMessage.includes("row-level security") ||
+                    errorMessage.includes("permission denied") ||
+                    errorMessage.includes("42501")
+                ) {
+                    showStatus(
+                        "O Supabase bloqueou o envio pelas permissões do banco. Precisamos conferir as políticas da tabela tickets.",
+                        "#ff8585"
+                    );
+                } else if (
+                    errorMessage.includes("Failed to fetch") ||
+                    errorMessage.includes("NetworkError")
+                ) {
+                    showStatus(
+                        "Falha de conexão. Verifique sua internet e tente novamente.",
+                        "#ff8585"
+                    );
+                } else {
+                    showStatus(
+                        "Não foi possível criar o ticket. Confira a conexão e tente novamente. Detalhes no console do navegador.",
+                        "#ff8585"
+                    );
+                }
+            } finally {
+                isSubmitting = false;
+                su
