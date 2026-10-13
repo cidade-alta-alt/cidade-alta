@@ -1,0 +1,286 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0b0c0f">
+  <meta name="description" content="Entre no Cidade Alta RP usando sua conta Google.">
+  <title>Entrar | Cidade Alta RP</title>
+
+  <style>
+    :root {
+      --bg: #0b0c0f;
+      --card: #121419;
+      --border: #292c34;
+      --text: #f5f5f6;
+      --muted: #969aa5;
+      --orange: #ff8c32;
+      --gold: #f3bd62;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      padding: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: radial-gradient(circle at top, #292016 0, var(--bg) 48%);
+      color: var(--text);
+      font-family: Arial, sans-serif;
+    }
+
+    .login-card {
+      width: 100%;
+      max-width: 420px;
+      padding: 32px 24px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 20px 60px #0006;
+    }
+
+    .logo {
+      width: 68px;
+      height: 68px;
+      margin: 0 auto 18px;
+      display: grid;
+      place-items: center;
+      border-radius: 18px;
+      background: linear-gradient(135deg, var(--orange), var(--gold));
+      color: #17100a;
+      font-size: 28px;
+      font-weight: 900;
+    }
+
+    h1 {
+      margin: 0 0 10px;
+      font-size: 25px;
+    }
+
+    .description {
+      margin: 0 0 26px;
+      color: var(--muted);
+      line-height: 1.6;
+      font-size: 14px;
+    }
+
+    .google-button {
+      width: 100%;
+      min-height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 12px;
+      padding: 12px;
+      border: 1px solid #d6d6d6;
+      border-radius: 10px;
+      background: #fff;
+      color: #202124;
+      font-size: 15px;
+      font-weight: 700;
+      cursor: pointer;
+    }
+
+    .google-button:disabled {
+      cursor: wait;
+      opacity: 0.65;
+    }
+
+    .google-icon {
+      font-size: 21px;
+      font-weight: 900;
+      color: #4285f4;
+    }
+
+    #message {
+      margin-top: 18px;
+      color: var(--gold);
+      font-size: 14px;
+      line-height: 1.5;
+      overflow-wrap: anywhere;
+    }
+
+    .back-link {
+      display: inline-block;
+      margin-top: 22px;
+      color: var(--muted);
+      text-decoration: none;
+      font-size: 13px;
+    }
+
+    .back-link:hover {
+      color: var(--gold);
+    }
+
+    .privacy {
+      margin-top: 24px;
+      color: var(--muted);
+      font-size: 12px;
+      line-height: 1.5;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="login-card">
+    <div class="logo" aria-label="Cidade Alta RP">CA</div>
+
+    <h1>Entrar no Cidade Alta RP</h1>
+
+    <p class="description">
+      Entre com sua conta Google para continuar
+      e acessar o atendimento da comunidade.
+    </p>
+
+    <button id="googleLogin" class="google-button" type="button" disabled>
+      <span class="google-icon" aria-hidden="true">G</span>
+      <span>Continuar com Google</span>
+    </button>
+
+    <p id="message" role="status" aria-live="polite">
+      Carregando autenticação...
+    </p>
+
+    <a class="back-link" href="index.html">
+      Voltar para a página inicial
+    </a>
+
+    <p class="privacy">
+      O login confirma sua identidade, mas não concede
+      automaticamente permissões de Staff.
+    </p>
+  </main>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script>
+    "use strict";
+
+    const SUPABASE_URL =
+      "https://exyacxoanpztjtklgiae.supabase.co";
+
+    const SUPABASE_PUBLISHABLE_KEY =
+      "sb_publishable_ZI8tE0m5x2kGfK66PUzarg_8SGgQ0Ie";
+
+    const SITE_URL =
+      "https://cidade-alta-alt.github.io/cidade-alta/";
+
+    const message = document.getElementById("message");
+    const button = document.getElementById("googleLogin");
+
+    const allowedCategories = [
+      "suporte",
+      "denuncia",
+      "parceria",
+      "outros"
+    ];
+
+    function getCategory() {
+      const params = new URLSearchParams(window.location.search);
+      const queryCategory = params.get("categoria");
+
+      if (allowedCategories.includes(queryCategory)) {
+        return queryCategory;
+      }
+
+      try {
+        const saved = sessionStorage.getItem(
+          "cidadeAltaCategoriaPendente"
+        );
+
+        if (allowedCategories.includes(saved)) {
+          return saved;
+        }
+      } catch (_) {}
+
+      return null;
+    }
+
+    function goToAttendance() {
+      const destination = new URL(
+        "atendimento.html",
+        SITE_URL
+      );
+
+      const category = getCategory();
+
+      if (category) {
+        destination.searchParams.set("categoria", category);
+      }
+
+      window.location.replace(destination.href);
+    }
+
+    async function initializeLogin() {
+      if (!window.supabase) {
+        message.textContent =
+          "Não foi possível carregar a autenticação. Verifique sua internet e recarregue a página.";
+        return;
+      }
+
+      const client = window.supabase.createClient(
+        SUPABASE_URL,
+        SUPABASE_PUBLISHABLE_KEY,
+        {
+          auth: {
+            persistSession: true,
+            autoRefreshToken: true,
+            detectSessionInUrl: true
+          }
+        }
+      );
+
+      // Processa o retorno do Google e mantém a sessão.
+      const { data, error } = await client.auth.getSession();
+
+      if (error) {
+        message.textContent =
+          "Não foi possível verificar sua sessão. Tente novamente.";
+        return;
+      }
+
+      if (data.session) {
+        goToAttendance();
+        return;
+      }
+
+      message.textContent = "";
+      button.disabled = false;
+
+      button.addEventListener("click", async function () {
+        button.disabled = true;
+        message.textContent = "Redirecionando para o Google...";
+
+        const redirectTo = new URL("login.html", SITE_URL).href;
+
+        const { error: loginError } =
+          await client.auth.signInWithOAuth({
+            provider: "google",
+            options: {
+              redirectTo: redirectTo
+            }
+          });
+
+        if (loginError) {
+          message.textContent =
+            "Erro ao iniciar o login: " + loginError.message;
+          button.disabled = false;
+        }
+      });
+    }
+
+    initializeLogin().catch(function (error) {
+      console.error("Erro na inicialização do login:", error);
+      message.textContent =
+        "Ocorreu um erro ao iniciar a autenticação. Recarregue a página.";
+    });
+  </script>
+</body>
+</html>
