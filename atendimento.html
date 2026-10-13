@@ -1,0 +1,473 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#0b0c0f">
+    <title>Atendimento | Cidade Alta RP</title>
+    <link rel="stylesheet" href="style.css">
+
+    <style>
+        .support-layout {
+            width: min(1000px, 92%);
+            margin: 45px auto 65px;
+        }
+
+        .support-header {
+            margin-bottom: 25px;
+        }
+
+        .support-header h2 {
+            margin-top: 10px;
+            font-size: clamp(25px, 5vw, 36px);
+            line-height: 1.25;
+        }
+
+        .support-header p {
+            margin-top: 10px;
+            color: var(--muted);
+            font-size: 13px;
+        }
+
+        .support-grid {
+            display: grid;
+            grid-template-columns: minmax(0, 1fr) 280px;
+            gap: 20px;
+            align-items: start;
+        }
+
+        .support-card {
+            overflow: hidden;
+            border: 1px solid var(--border);
+            border-radius: 14px;
+            background: var(--surface);
+        }
+
+        .support-card-header {
+            padding: 19px 21px;
+            display: flex;
+            align-items: center;
+            gap: 13px;
+            border-bottom: 1px solid var(--border);
+            background: rgba(255,255,255,.015);
+        }
+
+        .support-avatar {
+            width: 43px;
+            height: 43px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 12px;
+            background: linear-gradient(135deg, var(--orange), var(--gold));
+            color: #15100a;
+            font-weight: 900;
+        }
+
+        .support-card-header h3 {
+            font-size: 14px;
+        }
+
+        .support-card-header p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 11px;
+        }
+
+        .support-online {
+            margin-left: auto;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--muted);
+            font-size: 10px;
+            white-space: nowrap;
+        }
+
+        .support-body {
+            min-height: 300px;
+            padding: 22px;
+        }
+
+        .welcome-message {
+            padding: 17px;
+            border: 1px solid rgba(243,189,98,.14);
+            border-radius: 11px;
+            background: rgba(243,189,98,.035);
+        }
+
+        .welcome-message strong {
+            color: var(--gold);
+            font-size: 13px;
+        }
+
+        .welcome-message p {
+            margin-top: 8px;
+            color: #c2c4cb;
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .support-form {
+            padding: 20px 22px;
+            border-top: 1px solid var(--border);
+        }
+
+        .support-form label {
+            display: block;
+            margin-bottom: 8px;
+            color: #e7e7ea;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        .support-form select,
+        .support-form input,
+        .support-form textarea {
+            width: 100%;
+            padding: 13px;
+            border: 1px solid #343741;
+            border-radius: 9px;
+            outline: none;
+            background: #101216;
+            color: var(--text);
+            font: inherit;
+            font-size: 13px;
+        }
+
+        .support-form select:focus,
+        .support-form input:focus,
+        .support-form textarea:focus {
+            border-color: var(--orange);
+        }
+
+        .support-form textarea {
+            min-height: 115px;
+            resize: vertical;
+        }
+
+        .form-group {
+            margin-bottom: 18px;
+        }
+
+        .support-submit {
+            width: 100%;
+            min-height: 47px;
+            padding: 12px 16px;
+            border: 0;
+            border-radius: 9px;
+            background: linear-gradient(100deg, var(--orange), var(--gold));
+            color: #17110a;
+            font-size: 12px;
+            font-weight: 900;
+            cursor: pointer;
+        }
+
+        .support-submit:hover {
+            filter: brightness(1.07);
+        }
+
+        .support-submit:disabled {
+            opacity: .6;
+            cursor: not-allowed;
+        }
+
+        .support-status {
+            margin-top: 12px;
+            color: var(--muted);
+            font-size: 11px;
+            line-height: 1.8;
+        }
+
+        .side-card {
+            padding: 20px;
+            border: 1px solid var(--border);
+            border-radius: 13px;
+            background: var(--surface);
+        }
+
+        .side-card + .side-card {
+            margin-top: 15px;
+        }
+
+        .side-card h3 {
+            font-size: 14px;
+        }
+
+        .side-card > p {
+            margin-top: 8px;
+            color: var(--muted);
+            font-size: 12px;
+            line-height: 1.9;
+        }
+
+        .side-list {
+            margin-top: 17px;
+            display: grid;
+            gap: 15px;
+        }
+
+        .side-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 11px;
+        }
+
+        .side-item-icon {
+            width: 32px;
+            height: 32px;
+            flex-shrink: 0;
+            display: grid;
+            place-items: center;
+            border-radius: 9px;
+            background: rgba(255,140,50,.09);
+            color: var(--gold);
+        }
+
+        .side-item strong {
+            display: block;
+            font-size: 11px;
+        }
+
+        .side-item p {
+            margin-top: 3px;
+            color: var(--muted);
+            font-size: 10px;
+            line-height: 1.7;
+        }
+
+        .privacy-note {
+            margin-top: 18px;
+            color: #9296a1;
+            font-size: 10px;
+            line-height: 1.8;
+        }
+
+        @media (max-width: 760px) {
+            .support-layout {
+                margin-top: 30px;
+            }
+
+            .support-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .support-body {
+                min-height: 220px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="topbar">
+        <a href="index.html" class="brand">
+            <div class="brand-icon">CA</div>
+            <div>
+                <h1>CIDADE ALTA <span>RP</span></h1>
+                <p>CENTRAL DE ATENDIMENTO</p>
+            </div>
+        </a>
+
+        <a href="index.html" class="login-button">
+            Início <span>↗</span>
+        </a>
+    </header>
+
+    <main class="support-layout">
+        <section class="support-header">
+            <span class="eyebrow">CENTRAL DE SUPORTE</span>
+            <h2>Vamos resolver isso juntos.</h2>
+            <p>
+                Preencha as informações abaixo para preparar
+                sua solicitação de atendimento.
+            </p>
+        </section>
+
+        <div class="support-grid">
+            <section class="support-card">
+                <div class="support-card-header">
+                    <div class="support-avatar">CA</div>
+
+                    <div>
+                        <h3>Assistente Cidade Alta</h3>
+                        <p>Assistente virtual da central</p>
+                    </div>
+
+                    <div class="support-online">
+                        <span class="status-dot"></span>
+                        Preparação
+                    </div>
+                </div>
+
+                <div class="support-body">
+                    <div class="welcome-message">
+                        <strong>Bem-vindo à Central de Atendimento!</strong>
+                        <p>
+                            Para começar, escolha o assunto e descreva
+                            sua solicitação. Assim poderemos direcionar
+                            seu atendimento corretamente.
+                        </p>
+                        <p>
+                            A conversa com a inteligência artificial
+                            será habilitada após a conexão com o backend.
+                        </p>
+                    </div>
+                </div>
+
+                <form class="support-form" id="ticket-form">
+                    <div class="form-group">
+                        <label for="category">Categoria do atendimento</label>
+
+                        <select id="category" name="category" required>
+                            <option value="">Selecione uma categoria</option>
+                            <option value="suporte">Suporte</option>
+                            <option value="denuncia">Denúncias</option>
+                            <option value="parcerias">Parcerias</option>
+                            <option value="outros">Outros assuntos</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="subject">Assunto</label>
+
+                        <input
+                            id="subject"
+                            name="subject"
+                            type="text"
+                            maxlength="100"
+                            placeholder="Resuma o motivo do contato"
+                            required
+                        >
+                    </div>
+
+                    <div class="form-group">
+                        <label for="description">Descreva sua solicitação</label>
+
+                        <textarea
+                            id="description"
+                            name="description"
+                            maxlength="3000"
+                            placeholder="Conte o que aconteceu e forneça as informações necessárias..."
+                            required
+                        ></textarea>
+                    </div>
+
+                    <button class="support-submit" type="submit">
+                        Preparar atendimento
+                    </button>
+
+                    <p class="support-status" id="form-status" role="status">
+                        O envio real será ativado após a configuração
+                        do banco de dados e da autenticação.
+                    </p>
+                </form>
+            </section>
+
+            <aside>
+                <section class="side-card">
+                    <h3>Como funciona?</h3>
+
+                    <p>
+                        Queremos encaminhar sua solicitação para
+                        a equipe certa, com organização e segurança.
+                    </p>
+
+                    <div class="side-list">
+                        <div class="side-item">
+                            <div class="side-item-icon">01</div>
+                            <div>
+                                <strong>Informe o problema</strong>
+                                <p>Escolha a categoria e descreva o caso.</p>
+                            </div>
+                        </div>
+
+                        <div class="side-item">
+                            <div class="side-item-icon">02</div>
+                            <div>
+                                <strong>Atendimento virtual</strong>
+                                <p>A IA poderá auxiliar quando estiver configurada.</p>
+                            </div>
+                        </div>
+
+                        <div class="side-item">
+                            <div class="side-item-icon">03</div>
+                            <div>
+                                <strong>Equipe responsável</strong>
+                                <p>Um Staff autorizado poderá assumir o ticket.</p>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="side-card">
+                    <h3>Proteção das informações</h3>
+                    <p>
+                        Evite enviar senhas, códigos de autenticação
+                        ou informações pessoais desnecessárias.
+                    </p>
+
+                    <div class="privacy-note">
+                        Esta página ainda não envia os dados para
+                        um servidor. Não utilize informações reais
+                        enquanto a integração não estiver ativa.
+                    </div>
+                </section>
+            </aside>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-brand">CIDADE ALTA <span>RP</span></div>
+        <p>Central de Atendimento · 2026</p>
+        <span class="footer-status">
+            <span class="status-dot"></span>
+            SISTEMA EM DESENVOLVIMENTO
+        </span>
+    </footer>
+
+    <script>
+        "use strict";
+
+        const categorySelect = document.getElementById("category");
+        const form = document.getElementById("ticket-form");
+        const statusMessage = document.getElementById("form-status");
+
+        const validCategories = [
+            "suporte",
+            "denuncia",
+            "parcerias",
+            "outros"
+        ];
+
+        const params = new URLSearchParams(window.location.search);
+        const requestedCategory = params.get("categoria");
+
+        if (validCategories.includes(requestedCategory)) {
+            categorySelect.value = requestedCategory;
+        } else {
+            try {
+                const pending = sessionStorage.getItem(
+                    "cidadeAltaCategoriaPendente"
+                );
+
+                if (validCategories.includes(pending)) {
+                    categorySelect.value = pending;
+                }
+            } catch (error) {
+                console.warn("Não foi possível recuperar a categoria.");
+            }
+        }
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            statusMessage.textContent =
+                "Formulário validado localmente. Nenhum ticket foi criado. " +
+                "Precisamos conectar o backend para enviar sua solicitação.";
+
+            statusMessage.style.color = "#f3bd62";
+        });
+    </script>
+</body>
+</html>
